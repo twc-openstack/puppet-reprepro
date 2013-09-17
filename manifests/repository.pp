@@ -61,7 +61,7 @@ define reprepro::repository (
   }
 
   file { "${basedir}/${name}/pool":
-    ensure  => directory, 
+    ensure  => directory,
     mode    => '2755',
     owner   => $owner,
     group   => $group,
@@ -121,8 +121,8 @@ define reprepro::repository (
     mode    => '0640',
     owner   => $owner,
     group   => $group,
-    content => inline_template("<%= options.join(\"\n\") %>\n"),
-    require => File["${basedir}/${name}/conf"], 
+    content => inline_template("<%= @options.join(\"\n\") %>\n"),
+    require => File["${basedir}/${name}/conf"],
   }
 
   file { "${basedir}/${name}/conf/incoming":
