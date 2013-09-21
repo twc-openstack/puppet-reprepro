@@ -9,7 +9,7 @@ class reprepro::params {
 
   $ensure  = present
   $basedir = '/var/packages'
-  $homedir = $basedir
+  $homedir = '/var/packages'
 
   case $::osfamily {
     Debian: {

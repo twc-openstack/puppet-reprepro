@@ -13,13 +13,14 @@ class reprepro (
   }
 
   user { 'reprepro':
-    name    => $::reprepro::params::user_name,
-    ensure  => present,
-    home    => $homedir,
-    shell   => '/bin/bash',
-    comment => 'Reprepro user',
-    gid     => 'reprepro',
-    require => Group['reprepro'],
+    name       => $::reprepro::params::user_name,
+    ensure     => present,
+    home       => $homedir,
+    shell      => '/bin/bash',
+    comment    => 'Reprepro user',
+    gid        => 'reprepro',
+    managehome => true,
+    require    => Group['reprepro'],
   }
 
   file { $basedir:
