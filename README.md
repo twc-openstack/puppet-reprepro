@@ -1,7 +1,7 @@
 puppet reprepro module
 ======================
 
-This module assists with creating a local apt repository. 
+This module assists with creating a local apt repository.
 
 The only use-case it has been tested with has been to create a repository of pre-built packages. For example, I create a local repository of Puppet 2.7.x packages by downloading them from the official Puppet repository and then adding them to my local repo.
 
@@ -14,8 +14,8 @@ $ su - reprepro
 $ gpg --gen-key
 
 # Configure as necessary.
-# Note that you will have to maintain reprepro manually if you 
-# choose to use a passphrase. 
+# Note that you will have to maintain reprepro manually if you
+# choose to use a passphrase.
 
 $ gpg --export --armor foo@bar.com > /etc/puppet/modules/reprepro/files/localpkgs.gpg
 
@@ -27,7 +27,7 @@ $ gpg --export --armor foo@bar.com > /etc/puppet/modules/reprepro/files/localpkg
 
 The following is a full-stack example. This will create a reprepro-based repository, configure apache to allow access to the repository via http, and install the repository to your local apt configuration.
 
-Once this is all set up, you can then add packages to `${basedir}/${repository}/tmp/${suite}`. reprepro will install packages left in that directory into the repository every 5 minutes via cron.
+Once this is all set up, you can then add packages to `${basedir}/${repository}/tmp/${name}`. reprepro will install packages left in that directory into the repository every 5 minutes via cron.
 
 ```puppet
 # Base Directory shortcut
