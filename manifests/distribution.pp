@@ -96,13 +96,28 @@ define reprepro::distribution (
     group  => $::reprepro::params::group_name,
   }
 
+  file { "${::reprepro::params::homedir}/bin":
+    ensure => directory,
+    mode   => '0755',
+    owner  => $::reprepro::params::user_name,
+    group  => $::reprepro::params::group_name,
+  }
+  ->
+  file { "${::reprepro::params::homedir}/bin/update-distribution.sh":
+    ensure  => file,
+    mode    => '0755',
+    content => template('reprepro/update-distribution.sh.erb'),
+    owner   => $::reprepro::params::user_name,
+    group   => $::reprepro::params::group_name,
+  }
+
   if $install_cron {
 
     if $snapshots {
-      $command = "cd ${basedir}/${repository}/tmp/${name}; ls *.deb 2>/dev/null; if [ $? -eq 0 ]; then /usr/bin/reprepro -b ${basedir}/${repository} includedeb ${suite} *.deb; rm *.deb; /usr/bin/reprepro -b ${basedir}/${repository} gensnapshot ${suite} \$(if ls -d ${basedir}/${repository}/dists/${suite}/snapshots/[0-9]* &> /dev/null; then ls -d ${basedir}/${repository}/dists/${suite}/snapshots/[0-9]* | xargs -n 1 basename | sort -rn | awk '{printf \"%d\", \$1 + 1; exit}';else echo -n 0; fi); fi"
+      $command = "${::reprepro::params::homedir}/bin/update-distribution.sh -r ${repository} -d ${suite} -c ${name} -s"
     }
     else {
-      $command ="cd ${basedir}/${repository}/tmp/${name}; ls *.deb 2>/dev/null; if [ $? -eq 0 ]; then /usr/bin/reprepro -b ${basedir}/${repository} includedeb ${suite} *.deb; rm *.deb; fi"
+      $command = "${::reprepro::params::homedir}/bin/update-distribution.sh -r ${repository} -d ${suite} -c ${name}"
     }
     
     cron { "${name} cron":
@@ -110,6 +125,7 @@ define reprepro::distribution (
       user        => $::reprepro::params::user_name,
       environment => "SHELL=/bin/bash",
       minute      => '*/5',
+      require     => File["${::reprepro::params::homedir}/bin/update-distribution.sh"],
     }
   }
 
