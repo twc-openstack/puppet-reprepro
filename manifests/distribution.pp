@@ -100,8 +100,7 @@ define reprepro::distribution (
 
     if $snapshots {
       $command = "${::reprepro::params::homedir}/bin/update-distribution.sh -r ${repository} -d ${suite} -c ${name} -s"
-    }
-    else {
+    } else {
       $command = "${::reprepro::params::homedir}/bin/update-distribution.sh -r ${repository} -d ${suite} -c ${name}"
     }
     
