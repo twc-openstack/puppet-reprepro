@@ -39,5 +39,21 @@ class reprepro (
     require => User['reprepro'],
   }
 
+  file { "${::reprepro::params::homedir}/bin":
+    ensure  => directory,
+    mode    => '0755',
+    owner   => $::reprepro::params::user_name,
+    group   => $::reprepro::params::group_name,
+    require => User['reprepro'],
+  }
+  ->
+  file { "${::reprepro::params::homedir}/bin/update-distribution.sh":
+    ensure  => file,
+    mode    => '0755',
+    content => template('reprepro/update-distribution.sh.erb'),
+    owner   => $::reprepro::params::user_name,
+    group   => $::reprepro::params::group_name,
+  }
+
 }
 
