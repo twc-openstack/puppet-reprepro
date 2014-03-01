@@ -18,6 +18,7 @@ Parameters:
 - *dsc_indices*: file name and compression
 - *update*: update policy name
 - *uploaders*: who is allowed to upload packages
+- *snapshots*: create a reprepro snapshot on each update
 - *install_cron*: install cron job to automatically include new packages
 - *not_automatic*: automatic pined to 1 by using NotAutomatic, value are "yes" or "no"
 
@@ -56,6 +57,7 @@ define reprepro::distribution (
   $dsc_indices    = 'Sources Release .gz .bz2',
   $update         = '',
   $uploaders      = '',
+  $snapshots      = false,
   $install_cron   = true,
   $not_automatic  = 'yes'
 ) {
@@ -95,11 +97,19 @@ define reprepro::distribution (
   }
 
   if $install_cron {
+
+    if $snapshots {
+      $command = "${::reprepro::params::homedir}/bin/update-distribution.sh -r ${repository} -d ${suite} -c ${name} -s"
+    } else {
+      $command = "${::reprepro::params::homedir}/bin/update-distribution.sh -r ${repository} -d ${suite} -c ${name}"
+    }
+    
     cron { "${name} cron":
-      command     => "cd ${basedir}/${repository}/tmp/${name}; ls *.deb 2>/dev/null; if [ $? -eq 0 ]; then /usr/bin/reprepro -b ${basedir}/${repository} includedeb ${suite} *.deb; rm *.deb; fi",
+      command     => $command,
       user        => $::reprepro::params::user_name,
       environment => "SHELL=/bin/bash",
       minute      => '*/5',
+      require     => File["${::reprepro::params::homedir}/bin/update-distribution.sh"],
     }
   }
 
