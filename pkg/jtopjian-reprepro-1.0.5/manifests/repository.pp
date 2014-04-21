@@ -1,39 +1,39 @@
-# == Definition: reprepro::repository
-#
-#   Adds a packages repository.
-#
-# === Parameters
-#
-#   - *name*: the name of the repository
-#   - *ensure*: present/absent, defaults to present
-#   - *basedir*: base directory of reprepro
-#   - *incoming_name*: the name of the rule-set, used as argument
-#   - *incoming_dir*: the name of the directory to scan for .changes files
-#   - *incoming_tmpdir*: directory where the files are copied into
-#                        before they are read
-#   - *incoming_allow*: allowed distributions
-#   - *owner*: owner of reprepro files
-#   - *group*: reprepro files group
-#   - *options*: reprepro options
-#
-# === Requires
-#
-#   - Class["reprepro"]
-#
-# === Example
-#
-#   reprepro::repository { 'localpkgs':
-#     ensure  => present,
-#     options => ['verbose', 'basedir .'],
-#   }
-#
+/*
+== Definition: reprepro::repository
+
+Adds a packages repository.
+
+Parameters:
+- *name*: the name of the repository
+- *ensure*: present/absent, defaults to present
+- *basedir*: base directory of reprepro
+- *incoming_name*: the name of the rule-set, used as argument
+- *incoming_dir*: the name of the directory to scan for .changes files
+- *incoming_tmpdir*: directory where the files are copied into before they are read
+- *incoming_allow*: allowed distributions
+- *owner*: owner of reprepro files
+- *group*: reprepro files group
+- *options*: reprepro options
+
+Requires:
+- Class["reprepro"]
+
+Example usage:
+
+  reprepro::repository { 'localpkgs':
+    ensure  => present,
+    options => ['verbose', 'basedir .'],
+  }
+
+
+*/
 define reprepro::repository (
   $ensure          = present,
   $basedir         = $::reprepro::params::basedir,
-  $incoming_name   = 'incoming',
-  $incoming_dir    = 'incoming',
-  $incoming_tmpdir = 'tmp',
-  $incoming_allow  = '',
+  $incoming_name   = "incoming",
+  $incoming_dir    = "incoming",
+  $incoming_tmpdir = "tmp",
+  $incoming_allow  = "",
   $owner           = 'reprepro',
   $group           = 'reprepro',
   $options         = ['verbose', 'ask-passphrase', 'basedir .']
@@ -130,14 +130,14 @@ define reprepro::repository (
     mode    => '0640',
     owner   => $owner,
     group   => $group,
-    content => template('reprepro/incoming.erb'),
+    content => template("reprepro/incoming.erb"),
     require => File["${basedir}/${name}/conf"],
   }
 
   concat { "${basedir}/${name}/conf/distributions":
-    owner   => $owner,
-    group   => $group,
-    mode    => '0640',
+    owner => $owner,
+    group => $group,
+    mode  => '0640',
     require => File["${basedir}/${name}/conf"],
   }
 

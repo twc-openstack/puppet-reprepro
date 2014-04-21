@@ -1,16 +1,3 @@
-# == Class: reprepro
-#
-#   Configures reprepro on a server
-#
-# === Parameters
-#
-#   - *basedir*: The base directory to house the repository.
-#   - *homedir*: The home directory of the reprepro user.
-#
-# === Example
-#
-#   class { 'reprepro': }
-#
 class reprepro (
   $basedir = $::reprepro::params::basedir,
   $homedir = $::reprepro::params::homedir,
@@ -21,13 +8,13 @@ class reprepro (
   }
 
   group { 'reprepro':
-    ensure => present,
     name   => $::reprepro::params::group_name,
+    ensure => present,
   }
 
   user { 'reprepro':
-    ensure     => present,
     name       => $::reprepro::params::user_name,
+    ensure     => present,
     home       => $homedir,
     shell      => '/bin/bash',
     comment    => 'Reprepro user',

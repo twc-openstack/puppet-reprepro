@@ -1,32 +1,30 @@
-# == Definition: reprepro::update
-#
-#   Adds a packages repository.
-#
-# === Parameters
-#
-#   - *name*: the name of the update-upstream use in the
-#             Update field in conf/distributions
-#   - *ensure*: present/absent, defaults to present
-#   - *suite*: package suite
-#   - *url*: a valid repository URL
-#   - *verify_release*: check the GPG signature Releasefile
-#   - *filter_action*: default action when something is not found in the list
-#   - *filter_name*: a list of filenames in the format of dpkg --get-selections
-#
-# === Requires
-#
-#   - Class["reprepro"]
-#
-# === Example
-#
-#   reprepro::update {"lenny-backports":
-#     ensure      => present,
-#     suite       => 'lenny',
-#     repository  => "dev",
-#     url         => 'http://backports.debian.org/debian-backports',
-#     filter_name => "lenny-backports",
-#   }
-#
+/*
+== Definition: reprepro::update
+Adds a packages repository.
+
+Parameters:
+- *name*: the name of the update-upstream use in the Update field in conf/distributions
+- *ensure*: present/absent, defaults to present
+- *suite*: package suite
+- *url*: a valid repository URL
+- *verify_release*: check the GPG signature Releasefile
+- *filter_action*: default action when something is not found in the list
+- *filter_name*: a list of filenames in the format of dpkg --get-selections
+
+Requires:
+- Class["reprepro"]
+
+Example usage:
+
+  reprepro::update {"lenny-backports":
+    ensure      => present,
+    suite       => 'lenny',
+    repository  => "dev",
+    url         => 'http://backports.debian.org/debian-backports',
+    filter_name => "lenny-backports",
+  }
+
+*/
 define reprepro::update (
   $suite,
   $repository,

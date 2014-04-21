@@ -14,7 +14,7 @@ describe 'reprepro::filterlist' do
     let(:title) { 'lenny-backports' }
     let :params do default_params end
 
-    it { should contain_class('reprepro::params') }
+    it { should include_class('reprepro::params') }
     it { should contain_file('/var/packages/dev/conf/lenny-backports-filter-list') }
   end
 
@@ -28,7 +28,7 @@ describe 'reprepro::filterlist' do
       )
     end
 
-    it { should contain_class('reprepro::params') }
+    it { should include_class('reprepro::params') }
     it { should contain_file('/foo/bar/dev/conf/lenny-backports-filter-list') }
   end
 

@@ -2,6 +2,12 @@ require 'spec_helper'
 
 describe 'reprepro::distribution' do
 
+  let :facts do
+    {
+      :concat_basedir => '/foo'
+    }
+  end
+
   let :default_params do
     {
       :repository     => 'localpkgs',
@@ -27,13 +33,13 @@ describe 'reprepro::distribution' do
       })
     end
 
-    it { should contain_class('reprepro::params') }
-    it { should contain_class('concat::setup') }
+    it { should include_class('reprepro::params') }
+    it { should include_class('concat::setup') }
 
     it do
       should contain_concat__fragment('distribution-precise').with({
         :target => '/var/packages/localpkgs/conf/distributions'
-      }).that_notifies('Exec[export distribution precise]')
+      })
     end
 
     it do

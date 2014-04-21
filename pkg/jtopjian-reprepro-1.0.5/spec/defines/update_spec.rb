@@ -2,6 +2,12 @@ require 'spec_helper'
 
 describe 'reprepro::update' do
 
+  let :facts do
+    {
+      :concat_basedir => '/foo'
+    }
+  end
+
   let :default_params do
     {
       :basedir     => '/var/packages',
@@ -17,8 +23,8 @@ describe 'reprepro::update' do
     let(:title) { 'lenny-backports' }
     let :params do default_params end
 
-    it { should contain_class('reprepro::params') }
-    it { should contain_class('concat::setup') }
+    it { should include_class('reprepro::params') }
+    it { should include_class('concat::setup') }
 
     it do
       should contain_concat__fragment('update-lenny-backports').with({

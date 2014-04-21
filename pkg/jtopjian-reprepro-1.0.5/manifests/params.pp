@@ -1,7 +1,10 @@
-# == Class: reprepro::params
-#
-#  Global parameters
-#
+/*
+
+== Class: reprepro::params
+
+Global parameters
+
+*/
 class reprepro::params {
 
   $ensure  = present
@@ -13,9 +16,6 @@ class reprepro::params {
       $package_name = 'reprepro'
       $user_name    = 'reprepro'
       $group_name   = 'reprepro'
-    }
-    default: {
-      fail("Unsupported osfamily: ${::osfamily}")
     }
   }
 
