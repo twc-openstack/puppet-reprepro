@@ -50,7 +50,7 @@ define reprepro::distribution (
   $architectures,
   $components,
   $description,
-  $sign_with,
+  $sign_with      = '',
   $codename       = $name,
   $ensure         = present,
   $basedir        = $::reprepro::params::basedir,
