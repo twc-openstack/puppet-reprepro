@@ -49,7 +49,7 @@ cd ${BASEDIR}/${REPOSITORY}/tmp/${CODENAME}
 ls *.deb 2>/dev/null
 if [ $? -eq 0 ]; then 
   $REPREPRO -b ${BASEDIR}/${REPOSITORY} includedeb $DISTRIBUTION *.deb; 
-  rm *.deb; 
+  rm -f *.deb; 
 
   if ${SNAPSHOTS}; then
     SNAPDIR="${BASEDIR}/${REPOSITORY}/dists/${DISTRIBUTION}/snapshots"
