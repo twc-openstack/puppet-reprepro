@@ -25,7 +25,10 @@ describe 'reprepro' do
         :gid        => 'reprepro',
         :managehome => true,
         :system     => true,
-      }).that_requires('Group[reprepro]')
+      })
+      .that_requires('Group[reprepro]')
+      .that_notifies('File[/var/packages/.gnupg]')
+      .that_notifies('File[/var/packages/bin]')
     end
 
     it do
@@ -67,7 +70,10 @@ describe 'reprepro' do
         :gid        => 'reprepro',
         :managehome => true,
         :system     => true,
-      }).that_requires('Group[reprepro]')
+      })
+      .that_requires('Group[reprepro]')
+      .that_notifies('File[/home/packages/.gnupg]')
+      .that_notifies('File[/home/packages/bin]')
     end
 
     it do
@@ -88,5 +94,30 @@ describe 'reprepro' do
       }).that_requires('File[/home/packages/bin]')
     end
 
+  end
+
+  context 'With manage_user set to false' do
+    let :params do
+      default_params.merge({
+        :manage_user => false,
+      })
+    end
+
+    it do
+      should_not contain_group('reprepro')
+      should_not contain_user('reprepro')
+    end
+  end
+
+  context 'With manage_user set to an invalid value' do
+    let :params do
+      default_params.merge({
+        :manage_user => 'a string'
+      })
+    end
+
+    it do
+      should raise_error(Puppet::Error, /is not a boolean/)
+    end
   end
 end

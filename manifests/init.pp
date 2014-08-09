@@ -12,38 +12,48 @@
 #   class { 'reprepro': }
 #
 class reprepro (
-  $basedir = $::reprepro::params::basedir,
-  $homedir = $::reprepro::params::homedir,
+  $basedir     = $::reprepro::params::basedir,
+  $homedir     = $::reprepro::params::homedir,
+  $manage_user = true,
 ) inherits reprepro::params {
+  validate_bool($manage_user)
 
   package { $::reprepro::params::package_name:
     ensure => $::reprepro::params::ensure,
   }
 
-  group { 'reprepro':
-    ensure => present,
-    name   => $::reprepro::params::group_name,
-    system => true,
+  if $manage_user {
+    group { 'reprepro':
+      ensure => present,
+      name   => $::reprepro::params::group_name,
+      system => true,
+    }
+
+    user { 'reprepro':
+      ensure     => present,
+      name       => $::reprepro::params::user_name,
+      home       => $homedir,
+      shell      => '/bin/bash',
+      comment    => 'Reprepro user',
+      gid        => 'reprepro',
+      managehome => true,
+      system     => true,
+      require    => Group['reprepro'],
+      notify     => [
+        File["${homedir}/.gnupg"],
+        File["${homedir}/bin"],
+      ],
+    }
   }
 
-  user { 'reprepro':
-    ensure     => present,
-    name       => $::reprepro::params::user_name,
-    home       => $homedir,
-    shell      => '/bin/bash',
-    comment    => 'Reprepro user',
-    gid        => 'reprepro',
-    managehome => true,
-    system     => true,
-    require    => Group['reprepro'],
-  }
-
-  file { $basedir:
-    ensure  => directory,
-    owner   => $::reprepro::params::user_name,
-    group   => $::reprepro::params::group_name,
-    mode    => '0755',
-    require => User['reprepro'],
+  if ($basedir != $homedir) {
+    file { $basedir:
+      ensure  => directory,
+      owner   => $::reprepro::params::user_name,
+      group   => $::reprepro::params::group_name,
+      mode    => '0755',
+      require => User[$user_name],
+    }
   }
 
   file { "${homedir}/.gnupg":
@@ -51,7 +61,6 @@ class reprepro (
     owner   => $::reprepro::params::user_name,
     group   => $::reprepro::params::group_name,
     mode    => '0700',
-    require => User['reprepro'],
   }
 
   file { "${homedir}/bin":
@@ -59,7 +68,6 @@ class reprepro (
     mode    => '0755',
     owner   => $::reprepro::params::user_name,
     group   => $::reprepro::params::group_name,
-    require => User['reprepro'],
   }
   ->
   file { "${homedir}/bin/update-distribution.sh":
