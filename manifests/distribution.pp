@@ -17,6 +17,7 @@
 #   - *deb_indices*: file name and compression
 #   - *dsc_indices*: file name and compression
 #   - *update*: update policy name
+#   - *pull*: pull policy name
 #   - *uploaders*: who is allowed to upload packages
 #   - *snapshots*: create a reprepro snapshot on each update
 #   - *install_cron*: install cron job to automatically include new packages
@@ -59,6 +60,7 @@ define reprepro::distribution (
   $deb_indices         = 'Packages Release .gz .bz2',
   $dsc_indices         = 'Sources Release .gz .bz2',
   $update              = '',
+  $pull                = '',
   $uploaders           = '',
   $snapshots           = false,
   $install_cron        = true,
