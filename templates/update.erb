@@ -6,6 +6,9 @@ Suite: <%= @suite %>
 <% if @architectures -%>
 Architectures: <%= @architectures %>
 <% end -%>
+<% if @components -%>
+Components: <%= @components %>
+<% end -%>
 VerifyRelease: <%= @verify_release %>
 <% if @filter_list != "" -%>
 FilterList: <%= @filter_list %>

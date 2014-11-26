@@ -34,6 +34,7 @@ define reprepro::update (
   $basedir = $::reprepro::params::basedir,
   $ensure = present,
   $architectures = undef,
+  $components = undef,
   $verify_release = 'blindtrust',
   $filter_action = '',
   $filter_name = ''
