@@ -141,4 +141,11 @@ define reprepro::repository (
     require => File["${basedir}/${name}/conf"],
   }
 
+  concat { "${basedir}/${name}/conf/updates":
+    owner   => $owner,
+    group   => $group,
+    mode    => '0640',
+    require => File["${basedir}/${name}/conf"],
+  }
+
 }

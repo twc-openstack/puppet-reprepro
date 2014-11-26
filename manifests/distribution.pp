@@ -114,14 +114,4 @@ define reprepro::distribution (
       require     => File["${::reprepro::params::homedir}/bin/update-distribution.sh"],
     }
   }
-
-  if $update {
-    concat { "${basedir}/${repository}/conf/updates":
-      owner   => $::reprepro::params::user_name,
-      group   => $::reprepro::params::group_name,
-      mode    => '0640',
-      require => File["${basedir}/${repository}/conf"],
-    }
-  }
-
 }
