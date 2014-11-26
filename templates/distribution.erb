@@ -4,6 +4,9 @@ Suite: <%= @suite %>
 Codename: <%= @codename %>
 Architectures: <%= @architectures %>
 Components: <%= @components %>
+<% if @fakecomponentprefix -%>
+FakeComponentPrefix: <%= @fakecomponentprefix %>
+<% end -%>
 <% if @udebcomponents != "" -%>
 UDebComponents: <%= @udebcomponents %>
 <% end -%>
