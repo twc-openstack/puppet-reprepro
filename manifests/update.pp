@@ -36,6 +36,7 @@ define reprepro::update (
   $architectures = undef,
   $components = undef,
   $verify_release = 'blindtrust',
+  $ignore_release = 'No',
   $filter_action = '',
   $filter_name = ''
 ) {
