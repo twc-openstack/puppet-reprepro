@@ -58,7 +58,6 @@ describe 'reprepro::distribution' do
       })
     end
 
-    it { should contain_concat('/var/packages/localpkgs/conf/updates') }
   end
 
 end
