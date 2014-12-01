@@ -110,7 +110,7 @@ define reprepro::repository (
 
   file { "${basedir}/${name}/incoming":
     ensure  => directory,
-    mode    => '2755',
+    mode    => '2775',
     owner   => $owner,
     group   => $group,
     require => File["${basedir}/${name}"],
