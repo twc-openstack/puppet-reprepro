@@ -11,7 +11,7 @@
 #   - *url*: a valid repository URL
 #   - *verify_release*: check the GPG signature Releasefile
 #   - *filter_action*: default action when something is not found in the list
-#   - *filter_name*: a list of filenames in the format of dpkg --get-selections
+#   - *filter_name*: Name of a filter list created with reprepro::filterlist, matching binary packages
 #   - *filter_src_name: Name of a filter list created with reprepro::filterlist, matching source packages
 #
 # === Requires
