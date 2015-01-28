@@ -9,7 +9,6 @@ describe 'reprepro::update' do
       :suite          => 'lenny',
       :repository     => 'dev',
       :url            => 'http://backports.debian.org/debian-backports',
-      :filter_name    => 'lenny-backports',
       :ignore_release => 'No'
     }
   end
