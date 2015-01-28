@@ -145,6 +145,7 @@ define reprepro::repository (
     owner   => $owner,
     group   => $group,
     mode    => '0640',
+    force   => true, 
     require => File["${basedir}/${name}/conf"],
   }
 
