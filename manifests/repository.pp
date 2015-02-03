@@ -43,10 +43,10 @@ define reprepro::repository (
   include concat::setup
 
   file { "${basedir}/${name}":
-    ensure  => $ensure ? { present => directory, default => $ensure,},
-    purge   => $ensure ? { present => undef,     default => true,},
-    recurse => $ensure ? { present => undef,     default => true,},
-    force   => $ensure ? { present => undef,     default => true,},
+    ensure  => $ensure ? { 'present' => 'directory', default => $ensure,},
+    purge   => $ensure ? { 'present' => undef,     default => true,},
+    recurse => $ensure ? { 'present' => undef,     default => true,},
+    force   => $ensure ? { 'present' => undef,     default => true,},
     mode    => '2755',
     owner   => $owner,
     group   => $group,

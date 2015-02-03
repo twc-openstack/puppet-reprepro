@@ -74,7 +74,7 @@ define reprepro::update (
   }
 
   $manage = $ensure ? {
-    present => false,
+    'present' => false,
     default => true,
   }
 
