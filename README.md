@@ -64,10 +64,11 @@ class { 'apache': }
 
 # Make your repo publicly accessible
 apache::vhost { 'localpkgs':
-  port       => '80',
-  docroot    => '/var/lib/apt/repo/localpkgs',
-  servername => 'apt.example.com',
-  require    => Reprepro::Distribution['precise'],
+  port           => '80',
+  docroot        => '/var/lib/apt/repo/localpkgs',
+  manage_docroot => false,
+  servername     => 'apt.example.com',
+  require        => Reprepro::Distribution['precise'],
 }
 
 # Ensure your public key is accessible to download
