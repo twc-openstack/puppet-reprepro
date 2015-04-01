@@ -23,6 +23,8 @@
 #   - *install_cron*: install cron job to automatically include new packages
 #   - *not_automatic*: automatic pined to 1 by using NotAutomatic,
 #                      value are "yes" or "no"
+#   - *but_automatic_upgrades*: set ButAutomaticUpgrades,
+#                      value are "yes" or "no"
 #
 # === Requires
 #
@@ -51,21 +53,22 @@ define reprepro::distribution (
   $architectures,
   $components,
   $description,
-  $sign_with           = '',
-  $codename            = $name,
-  $ensure              = present,
-  $basedir             = $::reprepro::params::basedir,
-  $homedir             = $::reprepro::params::homedir,
-  $fakecomponentprefix = undef,
-  $udebcomponents      = $components,
-  $deb_indices         = 'Packages Release .gz .bz2',
-  $dsc_indices         = 'Sources Release .gz .bz2',
-  $update              = '',
-  $pull                = '',
-  $uploaders           = '',
-  $snapshots           = false,
-  $install_cron        = true,
-  $not_automatic       = 'yes'
+  $sign_with              = '',
+  $codename               = $name,
+  $ensure                 = present,
+  $basedir                = $::reprepro::params::basedir,
+  $homedir                = $::reprepro::params::homedir,
+  $fakecomponentprefix    = undef,
+  $udebcomponents         = $components,
+  $deb_indices            = 'Packages Release .gz .bz2',
+  $dsc_indices            = 'Sources Release .gz .bz2',
+  $update                 = '',
+  $pull                   = '',
+  $uploaders              = '',
+  $snapshots              = false,
+  $install_cron           = true,
+  $not_automatic          = '',
+  $but_automatic_upgrades = 'yes'
 ) {
 
   include reprepro::params
