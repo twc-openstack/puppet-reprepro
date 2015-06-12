@@ -1,6 +1,11 @@
 puppet reprepro module
 ======================
 
+### Warning
+
+This module is no longer actively maintained. If you'd like to take over maintenance, please let me know. Patches may continue to be merged for the time being, but will take longer than usual.
+
+
 This module assists with creating a local apt repository.
 
 The only use-case it has been tested with has been to create a repository of pre-built packages. For example, I create a local repository of Puppet 2.7.x packages by downloading them from the official Puppet repository and then adding them to my local repo.
