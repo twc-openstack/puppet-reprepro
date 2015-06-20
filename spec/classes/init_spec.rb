@@ -24,6 +24,7 @@ describe 'reprepro' do
         :comment    => 'Reprepro user',
         :gid        => 'reprepro',
         :managehome => true,
+        :system     => true,
       }).that_requires('Group[reprepro]')
     end
 
@@ -65,6 +66,7 @@ describe 'reprepro' do
         :comment    => 'Reprepro user',
         :gid        => 'reprepro',
         :managehome => true,
+        :system     => true,
       }).that_requires('Group[reprepro]')
     end
 

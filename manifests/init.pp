@@ -23,6 +23,7 @@ class reprepro (
   group { 'reprepro':
     ensure => present,
     name   => $::reprepro::params::group_name,
+    system => true,
   }
 
   user { 'reprepro':
@@ -33,6 +34,7 @@ class reprepro (
     comment    => 'Reprepro user',
     gid        => 'reprepro',
     managehome => true,
+    system     => true,
     require    => Group['reprepro'],
   }
 
