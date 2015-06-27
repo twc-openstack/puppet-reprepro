@@ -141,12 +141,24 @@ define reprepro::repository (
     require => File["${basedir}/${name}/conf"],
   }
 
+  concat::fragment { "00-distributions-${name}":
+    ensure  => $ensure,
+    content => "# Puppet managed\n",
+    target  => "${basedir}/${name}/conf/distributions",
+  }
+
   concat { "${basedir}/${name}/conf/updates":
     owner   => $owner,
     group   => $group,
     mode    => '0640',
     force   => true, 
     require => File["${basedir}/${name}/conf"],
+  }
+
+  concat::fragment { "00-update-${name}":
+    ensure  => $ensure,
+    content => "# Puppet managed\n",
+    target  => "${basedir}/${name}/conf/updates",
   }
 
   concat {"${basedir}/${name}/conf/pulls":
@@ -157,4 +169,9 @@ define reprepro::repository (
     require => File["${basedir}/${name}/conf"],
   }
 
+  concat::fragment { "00-pulls-${name}":
+    ensure  => $ensure,
+    content => "# Puppet managed\n",
+    target  => "${basedir}/${name}/conf/pulls",
+  }
 }
