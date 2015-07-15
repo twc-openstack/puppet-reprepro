@@ -47,12 +47,12 @@
 #
 define reprepro::distribution (
   $repository,
-  $origin,
-  $label,
-  $suite,
   $architectures,
   $components,
-  $description,
+  $origin                 = undef,
+  $label                  = undef,
+  $suite                  = undef,
+  $description            = undef,
   $sign_with              = '',
   $codename               = $name,
   $ensure                 = present,
@@ -98,7 +98,7 @@ define reprepro::distribution (
   }
 
   # Configure system for automatically adding packages
-  file { "${basedir}/${repository}/tmp/${name}":
+  file { "${basedir}/${repository}/tmp/${codename}":
     ensure => directory,
     mode   => '0755',
     owner  => $::reprepro::params::user_name,
@@ -108,9 +108,9 @@ define reprepro::distribution (
   if $install_cron {
 
     if $snapshots {
-      $command = "${homedir}/bin/update-distribution.sh -r ${repository} -d ${suite} -c ${name} -s"
+      $command = "${homedir}/bin/update-distribution.sh -r ${repository} -c ${codename} -s"
     } else {
-      $command = "${homedir}/bin/update-distribution.sh -r ${repository} -d ${suite} -c ${name}"
+      $command = "${homedir}/bin/update-distribution.sh -r ${repository} -c ${codename}"
     }
 
     cron { "${name} cron":
