@@ -37,7 +37,7 @@ describe 'reprepro' do
         :mode   => '0755',
         :owner  => 'reprepro',
         :group  => 'reprepro',
-      }).that_requires('User[reprepro]')
+      })
       end
 
     it do
@@ -54,24 +54,26 @@ describe 'reprepro' do
   context "With non-default parameters" do
     let :params do
       {
-        :basedir => '/home/packages',
-        :homedir => '/home/packages',
+        :basedir    => '/home/packages',
+        :homedir    => '/home/packages',
+        :user_name  => 'apt',
+        :group_name => 'nogroup',
       }
     end
 
     it { should contain_package('reprepro') }
-    it { should contain_group('reprepro').with_name('reprepro') }
+    it { should contain_group('nogroup').with_name('nogroup') }
     it do
-      should contain_user('reprepro').with({
-        :name       => 'reprepro',
+      should contain_user('apt').with({
+        :name       => 'apt',
         :home       => '/home/packages',
         :shell      => '/bin/bash',
         :comment    => 'Reprepro user',
-        :gid        => 'reprepro',
+        :gid        => 'nogroup',
         :managehome => true,
         :system     => true,
       })
-      .that_requires('Group[reprepro]')
+      .that_requires('Group[nogroup]')
       .that_notifies('File[/home/packages/.gnupg]')
       .that_notifies('File[/home/packages/bin]')
     end
@@ -80,17 +82,17 @@ describe 'reprepro' do
       should contain_file('/home/packages/bin').with({
         :ensure => 'directory',
         :mode   => '0755',
-        :owner  => 'reprepro',
-        :group  => 'reprepro',
-      }).that_requires('User[reprepro]')
+        :owner  => 'apt',
+        :group  => 'nogroup',
+      })
       end
 
     it do
       should contain_file('/home/packages/bin/update-distribution.sh').with({
         :mode    => '0755',
         :content => /while getopts/,
-        :owner   => 'reprepro',
-        :group   => 'reprepro',
+        :owner   => 'apt',
+        :group   => 'nogroup',
       }).that_requires('File[/home/packages/bin]')
     end
 

@@ -87,12 +87,12 @@ define reprepro::distribution (
   }
 
   exec {"export distribution ${name}":
-    command     => "su -c 'reprepro -b ${basedir}/${repository} export ${codename}' reprepro",
+    command     => "su -c 'reprepro -b ${basedir}/${repository} export ${codename}' ${reprepro::user_name}",
     path        => ['/bin', '/usr/bin'],
     refreshonly => true,
     logoutput   => on_failure,
     require     => [
-      User['reprepro'],
+      User[$::reprepro::user_name],
       Reprepro::Repository[$repository]
     ],
   }
@@ -101,8 +101,8 @@ define reprepro::distribution (
   file { "${basedir}/${repository}/tmp/${name}":
     ensure => directory,
     mode   => '0755',
-    owner  => $::reprepro::params::user_name,
-    group  => $::reprepro::params::group_name,
+    owner  => $::reprepro::user_name,
+    group  => $::reprepro::group_name,
   }
 
   if $install_cron {
@@ -115,7 +115,7 @@ define reprepro::distribution (
 
     cron { "${name} cron":
       command     => $command,
-      user        => $::reprepro::params::user_name,
+      user        => $::reprepro::user_name,
       environment => 'SHELL=/bin/bash',
       minute      => '*/5',
       require     => File["${homedir}/bin/update-distribution.sh"],
