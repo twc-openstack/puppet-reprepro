@@ -38,6 +38,7 @@ define reprepro::update (
   $ensure = present,
   $architectures = undef,
   $components = undef,
+  $udebcomponents = undef,
   $verify_release = 'blindtrust',
   $ignore_release = 'No',
   $filter_action = '',
