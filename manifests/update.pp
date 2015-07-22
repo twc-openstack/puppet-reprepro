@@ -34,10 +34,12 @@ define reprepro::update (
   $suite,
   $repository,
   $url,
-  $basedir = $::reprepro::params::basedir,
+  $basedir = $::reprepro::basedir,
   $ensure = present,
   $architectures = undef,
   $components = undef,
+  $udebcomponents = undef,
+  $flat = undef,
   $verify_release = 'blindtrust',
   $ignore_release = 'No',
   $filter_action = '',
@@ -48,6 +50,10 @@ define reprepro::update (
 
   include reprepro::params
   include concat::setup
+
+  if $flat and ($components or $udebcomponents) {
+    fail('$components and $udebcomponents are not allowed when $flat is provided.')
+  }
 
   if $filter_name != '' {
     if $filter_action == '' {
