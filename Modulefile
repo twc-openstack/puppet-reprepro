@@ -1,5 +1,5 @@
 name 'jtopjian-reprepro'
-version '2.0.1'
+version '3.0.0'
 source 'git://github.com/jtopjian/puppet-reprepro.git'
 author 'jtopjian, saz, camptocamp'
 license 'Apache 2.0'
