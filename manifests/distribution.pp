@@ -69,6 +69,7 @@ define reprepro::distribution (
   $install_cron           = true,
   $not_automatic          = '',
   $but_automatic_upgrades = 'no'
+  $log                    = '',
 ) {
 
   include reprepro::params
