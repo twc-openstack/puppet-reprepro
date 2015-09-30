@@ -15,6 +15,7 @@
 #   - *owner*: owner of reprepro files
 #   - *group*: reprepro files group
 #   - *options*: reprepro options
+#   - *createsymlinks*: create suite symlinks
 #
 # === Requires
 #
@@ -36,7 +37,8 @@ define reprepro::repository (
   $incoming_allow  = '',
   $owner           = 'reprepro',
   $group           = 'reprepro',
-  $options         = ['verbose', 'ask-passphrase', 'basedir .']
+  $options         = ['verbose', 'ask-passphrase', 'basedir .'],
+  $createsymlinks  = false,
   ) {
 
   include reprepro::params
@@ -173,5 +175,13 @@ define reprepro::repository (
     ensure  => $ensure,
     content => "# Puppet managed\n",
     target  => "${basedir}/${name}/conf/pulls",
+  }
+
+  if $createsymlinks {
+    exec {"${name}-createsymlinks":
+      command     => "su -c 'reprepro -b ${basedir}/${name}/${repository} --delete createsymlinks' ${owner}",
+      refreshonly => true,
+      subscribe   => File["${basedir}/${name}/conf/distributions"],
+    }
   }
 }
