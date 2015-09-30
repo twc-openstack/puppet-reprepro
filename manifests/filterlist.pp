@@ -7,7 +7,8 @@
 #   - *name*: name of the filter list
 #   - *ensure*: present/absent, defaults to present
 #   - *repository*: the name of the repository
-#   - *packages*: a list of packages
+#   - *packages*: a list of packages, if the list is empty, the file
+#                 content won't be managed by puppet
 #
 # === Requires
 #
@@ -31,18 +32,28 @@
 #
 define reprepro::filterlist (
   $repository,
-  $packages,
+  $packages = [],
   $basedir = $::reprepro::basedir,
-  $ensure=present
+  $ensure=present,
 ) {
 
   include reprepro::params
 
-  file {"${basedir}/${repository}/conf/${name}-filter-list":
-    ensure  => $ensure,
-    owner   => 'root',
-    group   => $::reprepro::group_name,
-    mode    => '0664',
-    content => template('reprepro/filterlist.erb'),
+  if (size($packages) > 0) {
+    file {"${basedir}/${repository}/conf/${name}-filter-list":
+      ensure  => $ensure,
+      owner   => 'root',
+      group   => $::reprepro::group_name,
+      mode    => '0664',
+      content => template('reprepro/filterlist.erb'),
+    }
+  } else {
+    file {"${basedir}/${repository}/conf/${name}-filter-list":
+      ensure  => $ensure,
+      owner   => 'root',
+      group   => $::reprepro::group_name,
+      mode    => '0664',
+      replace => false,
+    }
   }
 }
