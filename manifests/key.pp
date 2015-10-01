@@ -11,7 +11,7 @@
 #
 define reprepro::key (
   $key_source,
-  $homedir    = $::reprepro::params::homedir,
+  $homedir    = $::reprepro::homedir,
 ) {
 
   include reprepro::params
@@ -19,16 +19,16 @@ define reprepro::key (
   $keypath = "${homedir}/.gnupg/${name}"
   file {$keypath:
     ensure  => 'present',
-    owner   => $::reprepro::params::user_name,
-    group   => $::reprepro::params::group_name,
+    owner   => $::reprepro::user_name,
+    group   => $::reprepro::group_name,
     mode    => '0660',
     source  => $key_source,
-    require => User[$::reprepro::params::user_name],
+    require => User[$::reprepro::user_name],
     notify  => Exec["import-${name}"],
   }
 
   exec {"import-${name}":
-    command     => "su -c 'gpg --import ${keypath}' ${::reprepro::params::user_name}",
+    command     => "su -c 'gpg --import ${keypath}' ${::reprepro::user_name}",
     refreshonly => true,
   }
 }
