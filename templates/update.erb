@@ -4,6 +4,9 @@ Method: <%= @url %>
 Suite: <%= @suite %>
 <% end -%>
 IgnoreRelease: <%= @ignore_release %>
+<% if @getinrelease -%>
+GetInRelease: <%= @getinrelease %>
+<% end -%>
 <% if @architectures -%>
 Architectures: <%= @architectures %>
 <% end -%>
